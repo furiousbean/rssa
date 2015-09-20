@@ -232,3 +232,33 @@ decompose.wossa <- function(x,
 .rowspan.wossa <- function(x, idx) {
   qr.Q(qr(calc.v(x, idx)))
 }
+
+.elseries.wossa <- function(x, idx, ...) {
+  if (max(idx) > nsigma(x))
+    stop("Too few eigentriples computed for this decomposition")
+
+  dec <- .decomposition(x)
+  sigma <- .sigma(dec)
+  U <- .U(dec)
+
+  column.oblique <- .get(x, "column.oblique")[[3]]
+  row.oblique <- .get(x, "row.oblique")[[3]]
+
+  weights <- .hankelize.one(x, column.oblique, row.oblique)
+
+  res <- numeric(prod(x$length));
+  for (i in idx) {
+    if (nv(x) >= i) {
+      # FIXME: Check, whether we have factor vectors for reconstruction
+      # FIXME: Get rid of .get call
+      V <- .V(x)[, i];
+    } else {
+      # No factor vectors available. Calculate them on-fly.
+      V <- calc.v(x, i);
+    }
+
+    res <- res + sigma[i] * .hankelize.one(x, U = U[, i] * column.oblique, V = V * row.oblique) / weights
+  }
+
+  res;
+}
