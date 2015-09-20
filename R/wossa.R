@@ -193,6 +193,7 @@ decompose.wossa <- function(x,
         I <- .identity.emat(n)
         list(I, I, rep(1, n), rep(1, n))
       } else if (is.vector(A) && !is.list(A)) {
+        A <- sqrt(A)
         stopifnot(length(A) == n)
         iA <- .vector.pseudo.inverse(A)
         list(.diag.emat(A), .diag.emat(iA), A, iA)
