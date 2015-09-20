@@ -194,10 +194,16 @@ decompose.wossa <- function(x,
         stopifnot(ncol(A[[1]]) == n)
         stopifnot(nrow(A[[2]]) == n)
         stopifnot(ncol(A[[2]]) == nrow(A[[1]]))
+
+        stop("Non-diagonal oblique SSA is not implemented yet")
+
         A
       } else if (is.matrix(A) || is.extmat(A)) {
         stopifnot(ncol(A) == n)
         iA = pseudo.inverse(as.matrix(A))
+
+        stop("Non-diagonal oblique SSA is not implemented yet")
+
         list(A, iA)
       } else {
         stop("Unknown type of oblique input object")
