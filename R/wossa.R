@@ -269,3 +269,7 @@ decompose.wossa <- function(x,
 
   res;
 }
+
+.hweights.wossa <- function(x, ...) {
+  .hweights.1d.ssa(x, ...) * .decomposition(x, "weights")
+}
